@@ -13,9 +13,10 @@ class CategoriaView:
 
     def create_widgets(self):
         self.tree = ttk.Treeview(self.root, columns=(
-            "ID", "Nombre"), show="headings")
+            "ID", "Nombre", "Descripcion"), show="headings")
         self.tree.heading("ID", text="ID")
         self.tree.heading("Nombre", text="Nombre")
+        self.tree.heading("Descripcion", text="Descripcion")
         self.tree.pack(expand=True, fill='both')
 
         self.btn_nueva = ttk.Button(
@@ -33,7 +34,7 @@ class CategoriaView:
     def cargar_categorias(self):
         for categoria in self.categoria_controller.obtener_categorias():
             self.tree.insert('', 'end', values=(
-                categoria.id, categoria.nombre))
+                categoria.id, categoria.nombre, categoria.descripcion))
 
     def nueva_categoria(self):
         self.nueva_categoria_window = tk.Toplevel(self.root)
@@ -45,15 +46,59 @@ class CategoriaView:
         self.entry_nombre = ttk.Entry(self.nueva_categoria_window)
         self.entry_nombre.pack()
 
+        self.lbl_descripcion = ttk.Label(
+            self.nueva_categoria_window, text="Descripción")
+        self.lbl_descripcion.pack()
+        self.entry_descripcion = ttk.Entry(self.nueva_categoria_window)
+        self.entry_descripcion.pack()
+
+        self.btn_guardar = ttk.Button(
+            self.nueva_categoria_window, text="Guardar", command=self.guardar_categoria)
+        self.btn_guardar.pack()
+
+    def guardar_categoria(self):
+        nombre = self.entry_nombre.get()
+        descripcion = self.entry_descripcion.get()
+        self.categoria_controller.agregar_categoria(nombre,
+                                                    descripcion)
+        self.nueva_categoria_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_categorias()
+
     def actualizar_categoria(self):
         self.actualizar_categoria_window = tk.Toplevel(self.root)
         self.actualizar_categoria_window.title("Actualizar Categoria")
         self.actualizar_categoria_window.geometry("200x200")
 
+        self.lbl_id = ttk.Label(self.actualizar_categoria_window, text="ID")
+        self.lbl_id.pack()
+        self.entry_id = ttk.Entry(self.actualizar_categoria_window)
+        self.entry_id.pack()
+
         self.lbl_nombre = ttk.Label(self.actualizar_categoria_window, text="Nombre")
         self.lbl_nombre.pack()
         self.entry_nombre = ttk.Entry(self.actualizar_categoria_window)
         self.entry_nombre.pack()
+
+        self.lbl_descripcion = ttk.Label(
+            self.actualizar_categoria_window, text="Descripción")
+        self.lbl_descripcion.pack()
+        self.entry_descripcion = ttk.Entry(self.actualizar_categoria_window)
+        self.entry_descripcion.pack()
+
+        self.btn_actualizar = ttk.Button(
+            self.actualizar_categoria_window, text="Actualizar", command=self.actualizar)
+        self.btn_actualizar.pack()
+
+    def actualizar(self):
+        id = self.entry_id.get()
+        nombre = self.entry_nombre.get()
+        descripcion = self.entry_descripcion.get()
+        self.categoria_controller.actualizar_categoria(
+            id, nombre, descripcion)
+        self.actualizar_categoria_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_categorias()
 
     def eliminar_categoria(self):
         self.eliminar_categoria_window = tk.Toplevel(self.root)
@@ -63,4 +108,15 @@ class CategoriaView:
         self.lbl_id = ttk.Label(self.eliminar_categoria_window, text="ID")
         self.lbl_id.pack()
         self.entry_id = ttk.Entry(self.eliminar_categoria_window)
-        self.entry
+        self.entry_id.pack()
+
+        self.btn_eliminar = ttk.Button(
+            self.eliminar_categoria_window, text="Eliminar", command=self.eliminar)
+        self.btn_eliminar.pack()
+
+    def eliminar(self):
+        id = self.entry_id.get()
+        self.categoria_controller.eliminar_categoria(id)
+        self.eliminar_categoria_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_categorias()

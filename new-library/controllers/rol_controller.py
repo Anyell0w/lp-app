@@ -23,7 +23,7 @@ class RolController:
         conn.close()
 
     def actualizar_rol(self, id, nombre):
-        conn = sqliteconn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute("UPDATE roles SET nombre_rol=? WHERE id_rol=?", (nombre, id))
         conn.commit()

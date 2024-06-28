@@ -18,7 +18,7 @@ class PrestamoController:
     def agregar_prestamo(self, fecha_prestamo, fecha_entrega, id_libro, id_usuario, devuelto):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO prestamos (fecha_prestamo, fecha_entrega, id_libro, id_usuario, devuelto) VALUES (?, ?, ?, ?, ?)",
+        cursor.execute("INSERT INTO prestamos (fecha_prestamo, fecha_entrega, libros_idlibro, usuarios_idusuario, devuelto) VALUES (?, ?, ?, ?, ?)",
                        (fecha_prestamo, fecha_entrega, id_libro, id_usuario, devuelto))
         conn.commit()
         conn.close()
@@ -26,7 +26,7 @@ class PrestamoController:
     def actualizar_prestamo(self, id, fecha_prestamo, fecha_entrega, id_libro, id_usuario, devuelto):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("UPDATE prestamos SET fecha_prestamo=?, fecha_entrega=?, id_libro=?, id_usuario=?, devuelto=? WHERE id=?",
+        cursor.execute("UPDATE prestamos SET fecha_prestamo=?, fecha_entrega=?, libros_idlibro=?, usuarios_idusuario=?, devuelto=? WHERE id_prestamo=?",
                        (fecha_prestamo, fecha_entrega, id_libro, id_usuario, devuelto, id))
         conn.commit()
         conn.close()
@@ -34,6 +34,6 @@ class PrestamoController:
     def eliminar_prestamo(self, id):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM prestamos WHERE id=?", (id,))
+        cursor.execute("DELETE FROM prestamos WHERE id_prestamo=?", (id,))
         conn.commit()
         conn.close()
