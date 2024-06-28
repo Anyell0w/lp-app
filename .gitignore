@@ -1,4 +1,4 @@
 # ignorar ./ideas
 
-./avance biblioteca/
-./ideas/
+/avance biblioteca/*
+/ideas/*
