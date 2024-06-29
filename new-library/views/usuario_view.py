@@ -1,4 +1,3 @@
-# views/usuario_view.py
 import tkinter as tk
 from tkinter import ttk
 from controllers.usuario_controller import UsuarioController
@@ -35,19 +34,172 @@ class UsuarioView:
             self.root, text="Eliminar Usuario", command=self.eliminar_usuario)
         self.btn_eliminar.pack(side="left")
 
+        # Agregar campo de búsqueda y botón
+        self.frame_busqueda = ttk.Frame(self.root)
+        self.frame_busqueda.pack(pady=10)
+
+        self.lbl_buscar = ttk.Label(self.frame_busqueda, text="Buscar:")
+        self.lbl_buscar.pack(side="left")
+
+        self.entry_buscar = ttk.Entry(self.frame_busqueda, width=30)
+        self.entry_buscar.pack(side="left", padx=10)
+
+        self.btn_buscar = ttk.Button(
+            self.frame_busqueda, text="Buscar", command=self.buscar_usuario)
+        self.btn_buscar.pack(side="left")
+
     def cargar_usuarios(self):
+        # Limpia el árbol antes de cargar los usuarios para evitar duplicados
+        self.tree.delete(*self.tree.get_children())
+
         for usuario in self.usuario_controller.obtener_usuarios():
             self.tree.insert('', 'end', values=(usuario.id, usuario.nombre, usuario.apellido,
-                             usuario.email, usuario.dni, usuario.celular, usuario.rol))
+                                                usuario.email, usuario.dni, usuario.celular, usuario.rol))
 
     def nuevo_usuario(self):
-        # Aquí iría la lógica para añadir un nuevo usuario
-        pass
+        self.nuevo_usuario_window = tk.Toplevel(self.root)
+        self.nuevo_usuario_window.title("Nuevo Usuario")
+        self.nuevo_usuario_window.geometry("400x400")
+
+        self.nombre_label = ttk.Label(self.nuevo_usuario_window, text="Nombre:")
+        self.nombre_label.pack()
+        self.nombre_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.nombre_entry.pack()
+
+        self.apellido_label = ttk.Label(self.nuevo_usuario_window, text="Apellido:")
+        self.apellido_label.pack()
+        self.apellido_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.apellido_entry.pack()
+
+        self.email_label = ttk.Label(self.nuevo_usuario_window, text="Email:")
+        self.email_label.pack()
+        self.email_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.email_entry.pack()
+
+        self.dni_label = ttk.Label(self.nuevo_usuario_window, text="DNI:")
+        self.dni_label.pack()
+        self.dni_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.dni_entry.pack()
+
+        self.celular_label = ttk.Label(self.nuevo_usuario_window, text="Celular:")
+        self.celular_label.pack()
+        self.celular_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.celular_entry.pack()
+
+        self.rol_label = ttk.Label(self.nuevo_usuario_window, text="Rol:")
+        self.rol_label.pack()
+        self.rol_entry = ttk.Entry(self.nuevo_usuario_window)
+        self.rol_entry.pack()
+
+        self.btn_guardar = ttk.Button(
+            self.nuevo_usuario_window, text="Guardar", command=self.guardar_usuario)
+        self.btn_guardar.pack()
+
+    def guardar_usuario(self):
+        nombre = self.nombre_entry.get()
+        apellido = self.apellido_entry.get()
+        email = self.email_entry.get()
+        dni = self.dni_entry.get()
+        celular = self.celular_entry.get()
+        rol = self.rol_entry.get()
+        self.usuario_controller.agregar_usuario(
+            nombre, apellido, email, dni, celular, rol)
+        self.nuevo_usuario_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_usuarios()
 
     def actualizar_usuario(self):
-        # Aquí iría la lógica para actualizar un usuario existente
-        pass
+        self.actualizar_usuario_window = tk.Toplevel(self.root)
+        self.actualizar_usuario_window.title("Actualizar Usuario")
+        self.actualizar_usuario_window.geometry("400x400")
+
+        self.id_label = ttk.Label(self.actualizar_usuario_window, text="ID:")
+        self.id_label.pack()
+        self.id_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.id_entry.pack()
+
+        self.nombre_label = ttk.Label(self.actualizar_usuario_window, text="Nombre:")
+        self.nombre_label.pack()
+        self.nombre_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.nombre_entry.pack()
+
+        self.apellido_label = ttk.Label(self.actualizar_usuario_window, text="Apellido:")
+        self.apellido_label.pack()
+        self.apellido_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.apellido_entry.pack()
+
+        self.email_label = ttk.Label(self.actualizar_usuario_window, text="Email:")
+        self.email_label.pack()
+        self.email_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.email_entry.pack()
+
+        self.dni_label = ttk.Label(self.actualizar_usuario_window, text="DNI:")
+        self.dni_label.pack()
+        self.dni_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.dni_entry.pack()
+
+        self.celular_label = ttk.Label(self.actualizar_usuario_window, text="Celular:")
+        self.celular_label.pack()
+        self.celular_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.celular_entry.pack()
+
+        self.rol_label = ttk.Label(self.actualizar_usuario_window, text="Rol:")
+        self.rol_label.pack()
+        self.rol_entry = ttk.Entry(self.actualizar_usuario_window)
+        self.rol_entry.pack()
+
+        self.btn_actualizar = ttk.Button(
+            self.actualizar_usuario_window, text="Actualizar", command=self.actualizar)
+        self.btn_actualizar.pack()
+
+    def actualizar(self):
+        id = self.id_entry.get()
+        nombre = self.nombre_entry.get()
+        apellido = self.apellido_entry.get()
+        email = self.email_entry.get()
+        dni = self.dni_entry.get()
+        celular = self.celular_entry.get()
+        rol = self.rol_entry.get()
+        self.usuario_controller.actualizar_usuario(
+            id, nombre, apellido, email, dni, celular, rol)
+        self.actualizar_usuario_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_usuarios()
 
     def eliminar_usuario(self):
-        # Aquí iría la lógica para eliminar un usuario
-        pass
+        self.eliminar_usuario_window = tk.Toplevel(self.root)
+        self.eliminar_usuario_window.title("Eliminar Usuario")
+        self.eliminar_usuario_window.geometry("400x400")
+
+        self.id_label = ttk.Label(self.eliminar_usuario_window, text="ID:")
+        self.id_label.pack()
+        self.id_entry = ttk.Entry(self.eliminar_usuario_window)
+        self.id_entry.pack()
+
+        self.btn_eliminar = ttk.Button(
+            self.eliminar_usuario_window, text="Eliminar", command=self.eliminar)
+        self.btn_eliminar.pack()
+
+    def eliminar(self):
+        id = self.id_entry.get()
+        self.usuario_controller.eliminar_usuario(id)
+        self.eliminar_usuario_window.destroy()
+        self.tree.delete(*self.tree.get_children())
+        self.cargar_usuarios()
+
+    def buscar_usuario(self):
+        filtro = self.entry_buscar.get()
+        if filtro:
+            resultados = self.usuario_controller.buscar_usuarios(filtro)
+            # Limpiar árbol antes de agregar resultados de búsqueda
+            self.tree.delete(*self.tree.get_children())
+            for usuario in resultados:
+                self.tree.insert('', 'end', values=(usuario.id, usuario.nombre, usuario.apellido,
+                                                    usuario.email, usuario.dni, usuario.celular, usuario.rol))
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    usuario_controller = UsuarioController("path_to_your_database.db")
+    app = UsuarioView(root, usuario_controller)
+    root.mainloop()

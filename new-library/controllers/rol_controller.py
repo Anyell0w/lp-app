@@ -23,7 +23,7 @@ class RolController:
         conn.close()
 
     def actualizar_rol(self, id, nombre):
-        conn = sqliteconn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute("UPDATE roles SET nombre_rol=? WHERE id_rol=?", (nombre, id))
         conn.commit()
@@ -35,3 +35,11 @@ class RolController:
         cursor.execute("DELETE FROM roles WHERE id_rol=?", (id,))
         conn.commit()
         conn.close()
+
+    def buscar_roles(self, filtro):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM roles WHERE nombre_rol LIKE ?", ('%' + filtro + '%',))
+        roles_encontrados = [Rol(*row) for row in cursor.fetchall()]
+        conn.close()
+        return roles_encontrados
