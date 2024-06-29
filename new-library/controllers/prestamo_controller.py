@@ -1,8 +1,5 @@
-# controllers/prestamo_controller.py
 import sqlite3
 from models.prestamo import Prestamo
-
-
 class PrestamoController:
     def __init__(self, db_path):
         self.db_path = db_path
@@ -37,3 +34,12 @@ class PrestamoController:
         cursor.execute("DELETE FROM prestamos WHERE id_prestamo=?", (id,))
         conn.commit()
         conn.close()
+
+    def buscar_prestamos(self, filtro):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM prestamos WHERE fecha_prestamo LIKE ? OR fecha_entrega LIKE ? OR libros_idlibro LIKE ? OR usuarios_idusuario LIKE ?",
+                       ('%' + filtro + '%', '%' + filtro + '%', '%' + filtro + '%', '%' + filtro + '%'))
+        prestamos = [Prestamo(*row) for row in cursor.fetchall()]
+        conn.close()
+        return prestamos

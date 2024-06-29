@@ -1,4 +1,3 @@
-# views/prestamo_view.py
 import tkinter as tk
 from tkinter import ttk
 from controllers.prestamo_controller import PrestamoController
@@ -34,10 +33,19 @@ class PrestamoView:
             self.root, text="Eliminar Préstamo", command=self.eliminar_prestamo)
         self.btn_eliminar.pack(side="left")
 
+        # Barra de búsqueda
+        self.lbl_buscar = ttk.Label(self.root, text="Buscar:")
+        self.lbl_buscar.pack(side="left")
+        self.entry_buscar = ttk.Entry(self.root)
+        self.entry_buscar.pack(side="left", padx=5)
+        self.btn_buscar = ttk.Button(self.root, text="Buscar", command=self.buscar_prestamos)
+        self.btn_buscar.pack(side="left")
+
     def cargar_prestamos(self):
+        self.tree.delete(*self.tree.get_children())
         for prestamo in self.prestamo_controller.obtener_prestamos():
             self.tree.insert('', 'end', values=(prestamo.id, prestamo.fecha_prestamo,
-                             prestamo.fecha_entrega, prestamo.id_libro, prestamo.id_usuario, prestamo.devuelto))
+                                                prestamo.fecha_entrega, prestamo.id_libro, prestamo.id_usuario, prestamo.devuelto))
 
     def nuevo_prestamo(self):
         self.nuevo_prestamo_window = tk.Toplevel(self.root)
@@ -155,3 +163,21 @@ class PrestamoView:
         self.eliminar_prestamo_window.destroy()
         self.tree.delete(*self.tree.get_children())
         self.cargar_prestamos()
+
+    def buscar_prestamos(self):
+        filtro = self.entry_buscar.get()
+        self.tree.delete(*self.tree.get_children())
+        if filtro:
+            for prestamo in self.prestamo_controller.buscar_prestamos(filtro):
+                self.tree.insert('', 'end', values=(prestamo.id, prestamo.fecha_prestamo,
+                                                    prestamo.fecha_entrega, prestamo.id_libro, prestamo.id_usuario, prestamo.devuelto))
+        else:
+            self.cargar_prestamos()
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Gestión de Préstamos")
+    prestamo_controller = PrestamoController("path_to_your_database.db")
+    app = PrestamoView(root, prestamo_controller)
+    root.mainloop()

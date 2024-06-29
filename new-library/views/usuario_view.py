@@ -1,4 +1,3 @@
-# views/usuario_view.py
 import tkinter as tk
 from tkinter import ttk
 from controllers.usuario_controller import UsuarioController
@@ -35,10 +34,27 @@ class UsuarioView:
             self.root, text="Eliminar Usuario", command=self.eliminar_usuario)
         self.btn_eliminar.pack(side="left")
 
+        # Agregar campo de búsqueda y botón
+        self.frame_busqueda = ttk.Frame(self.root)
+        self.frame_busqueda.pack(pady=10)
+
+        self.lbl_buscar = ttk.Label(self.frame_busqueda, text="Buscar:")
+        self.lbl_buscar.pack(side="left")
+
+        self.entry_buscar = ttk.Entry(self.frame_busqueda, width=30)
+        self.entry_buscar.pack(side="left", padx=10)
+
+        self.btn_buscar = ttk.Button(
+            self.frame_busqueda, text="Buscar", command=self.buscar_usuario)
+        self.btn_buscar.pack(side="left")
+
     def cargar_usuarios(self):
+        # Limpia el árbol antes de cargar los usuarios para evitar duplicados
+        self.tree.delete(*self.tree.get_children())
+
         for usuario in self.usuario_controller.obtener_usuarios():
             self.tree.insert('', 'end', values=(usuario.id, usuario.nombre, usuario.apellido,
-                             usuario.email, usuario.dni, usuario.celular, usuario.rol))
+                                                usuario.email, usuario.dni, usuario.celular, usuario.rol))
 
     def nuevo_usuario(self):
         self.nuevo_usuario_window = tk.Toplevel(self.root)
@@ -170,3 +186,20 @@ class UsuarioView:
         self.eliminar_usuario_window.destroy()
         self.tree.delete(*self.tree.get_children())
         self.cargar_usuarios()
+
+    def buscar_usuario(self):
+        filtro = self.entry_buscar.get()
+        if filtro:
+            resultados = self.usuario_controller.buscar_usuarios(filtro)
+            # Limpiar árbol antes de agregar resultados de búsqueda
+            self.tree.delete(*self.tree.get_children())
+            for usuario in resultados:
+                self.tree.insert('', 'end', values=(usuario.id, usuario.nombre, usuario.apellido,
+                                                    usuario.email, usuario.dni, usuario.celular, usuario.rol))
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    usuario_controller = UsuarioController("path_to_your_database.db")
+    app = UsuarioView(root, usuario_controller)
+    root.mainloop()

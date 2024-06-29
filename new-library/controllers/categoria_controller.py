@@ -37,3 +37,12 @@ class CategoriaController:
         cursor.execute("DELETE FROM categoria WHERE id_categoria=?", (id,))
         conn.commit()
         conn.close()
+
+    def buscar_categorias(self, filtro):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM categoria WHERE nombre_categoria LIKE ? OR descripcion LIKE ?",
+                       ('%' + filtro + '%', '%' + filtro + '%'))
+        categorias = [Categoria(*row) for row in cursor.fetchall()]
+        conn.close()
+        return categorias
