@@ -18,14 +18,14 @@ class UsuarioController:
     def agregar_usuario(self, nombre, email):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (nombre_usuario, email) VALUES (?, ?)", (nombre, email))
+        cursor.execute("INSERT INTO usuarios (nombre, apellido, email, celular, roles_idrol) VALUES (?, ?, ?, ?, ?)", (nombre, email))
         conn.commit()
         conn.close()
 
     def actualizar_usuario(self, id, nombre, email):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("UPDATE usuarios SET nombre_usuario=?, email=? WHERE id_usuario=?", (nombre, email, id))
+        cursor.execute("UPDATE usuarios SET nombre=?, email=?, email=?, celular=?, roles_idrol=? WHERE id_usuario=?", (nombre, email, id))
         conn.commit()
         conn.close()
 
@@ -39,7 +39,7 @@ class UsuarioController:
     def buscar_usuarios(self, filtro):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM usuarios WHERE nombre_usuario LIKE ? OR email LIKE ?", ('%' + filtro + '%', '%' + filtro + '%'))
+        cursor.execute("SELECT * FROM usuarios WHERE nombre LIKE ? OR email LIKE ?", ('%' + filtro + '%', '%' + filtro + '%'))
         usuarios_encontrados = [Usuario(*row) for row in cursor.fetchall()]
         conn.close()
         return usuarios_encontrados

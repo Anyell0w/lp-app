@@ -13,8 +13,6 @@ from views.categoria_view import CategoriaView
 from views.rol_view import RolView
 
 
-
-
 class MainView:
     def __init__(self, root):
         self.root = root
@@ -55,6 +53,60 @@ class MainView:
         self.frame_roles = ttk.Frame(self.notebook)
         self.notebook.add(self.frame_roles, text='Roles')
         self.rol_view = RolView(self.frame_roles, self.rol_controller)
+
+        # Estilos generales
+        self.style = ttk.Style()
+        self.style.configure('TButton', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TLabel', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TEntry', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TFrame', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TNotebook', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TNotebook.Tab', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TCombobox', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Heading', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Cell', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Row', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Column', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+
+        # Estilos específicos
+        # Estilos para las tablas
+        self.style.configure('Treeview', rowheight=30)
+        self.style.configure('Treeview.Heading', font=('Arial', 12))
+        self.style.configure('Treeview', font=('Arial', 12))
+        self.style.configure('Treeview', background='#ccc')
+        self.style.configure('Treeview', fieldbackground='#ccc')
+        self.style.configure('Treeview', foreground='black')
+        self.style.configure('Treeview', selectbackground='#ccc')
+        self.style.configure('Treeview', selectforeground='black')
+        self.style.configure('Treeview', selectmode='browse')
+        self.style.configure('Treeview', show='headings')
+        self.style.configure('Treeview', takefocus=True)
+        self.style.configure('Treeview', height=10)
+        self.style.configure('Treeview', columns=('ID', 'Nombre', 'Descripción', 'Fecha de Creación'))
+        self.style.configure('Treeview', displaycolumns=('ID', 'Nombre', 'Descripción', 'Fecha de Creación'))
+        self.style.configure('Treeview', selectmode='browse')
+        self.style.configure('Treeview', padding=6)
+        self.style.configure('Treeview', relief='flat')
+
+        # Fondo de la ventana
+        self.root.configure(bg='#ccc')
+
+        # Estilos de los botones
+        self.style.configure('TButton', font=('Arial', 12))
+        self.style.configure('TButton', background='#ccc')
+        self.style.configure('TButton', foreground='black')
+        self.style.configure('TButton', relief='flat')
+        self.style.configure('TButton', padding=6)
+        self.style.configure('TButton', width=20)
+        self.style.configure('TButton', anchor='center')
+        self.style.configure('TButton', takefocus=True)
+        self.style.configure('TButton', cursor='hand2')
+
 
 if __name__ == '__main__':
     root = tk.Tk()
