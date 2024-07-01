@@ -1,7 +1,7 @@
 
 ===============================================
 
-	- git clone https://github.com/Anyell0w/lp-app/
+	git clone https://github.com/Anyell0w/lp-app/
  
 ===============================================
 # Curso: Lenguajes de Programación I
@@ -22,13 +22,11 @@ Estructura de la base de datos
 
 Último avance
 ---
-v0.0.2 ./new-library
-./controllers/categoria_controller.py
-./views/categoria_view.py
-./models/categoria.py
-" __INIT__ " archives Modified, and main viewer
+v0.0.3
+![image](https://github.com/Anyell0w/lp-app/assets/75091337/f09c6288-760e-4f6f-afd3-0029c4f90ee2)
+![image](https://github.com/Anyell0w/lp-app/assets/75091337/bd9a6cfd-17e0-40a2-ad22-c0bba3020fec)
 
-![image](https://github.com/Anyell0w/lp-app/assets/75091337/899d7e60-ae9b-4e07-9d75-c6df6951d0dd)
+
 
 
 
