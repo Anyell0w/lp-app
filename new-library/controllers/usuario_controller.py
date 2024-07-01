@@ -15,17 +15,17 @@ class UsuarioController:
         conn.close()
         return usuarios
 
-    def agregar_usuario(self, nombre, email):
+    def agregar_usuario(self, nombre, apellido, email ,dni,     celular, roles_idrol):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (nombre, apellido, email, celular, roles_idrol) VALUES (?, ?, ?, ?, ?)", (nombre, email))
+        cursor.execute("INSERT INTO usuarios (nombre, apellido, email, dni, celular, roles_idrol) VALUES (?, ?, ?, ?, ?, ?)", (nombre, apellido, email, dni, celular, roles_idrol))
         conn.commit()
         conn.close()
 
-    def actualizar_usuario(self, id, nombre, email):
+    def actualizar_usuario(self, id, nombre, apellido, email, dni, celular, roles_idrol):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("UPDATE usuarios SET nombre=?, email=?, email=?, celular=?, roles_idrol=? WHERE id_usuario=?", (nombre, email, id))
+        cursor.execute("UPDATE usuarios SET nombre=?, email=?, email=?, dni=?,celular=?, roles_idrol=? WHERE id_usuario=?", (nombre, email, dni, celular, roles_idrol, id))
         conn.commit()
         conn.close()
 
