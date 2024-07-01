@@ -26,9 +26,15 @@ if __name__ == '__main__':
     def login():
         username = entry1.get()
         password = entry2.get()
+        rol = "admin"
         if username == "admin" and password == "admin":
             mb.showinfo("Login", "Operación exitosa")
-            app = MainView(root)
+            app = MainView(root,rol)
+            root.geometry("1500x800")
+        elif username == "user" and password == "user":
+            mb.showinfo("Login", "Operación exitosa")
+            rol = "user"
+            app = MainView(root,rol)
             root.geometry("1500x800")
         else:
             mb.showerror("Login", "Usuario o contraseña incorrectos")

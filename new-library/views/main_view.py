@@ -14,7 +14,7 @@ from views.rol_view import RolView
 
 
 class MainView:
-    def __init__(self, root):
+    def __init__(self, root, rol):
         self.root = root
         self.root.title("Sistema de Biblioteca")
 
@@ -23,7 +23,11 @@ class MainView:
         self.prestamo_controller = PrestamoController('./Biblioteca')
         self.categoria_controller = CategoriaController('./Biblioteca')
         self.rol_controller = RolController('./Biblioteca')
-        self.create_widgets()
+        rol = self.rol_controller.get_rol(rol)
+        if rol == "admin":
+            self.create_widgets()
+        elif rol == "user":
+            self.create_widgets_user()
 
     def create_widgets(self):
         self.notebook = ttk.Notebook(self.root)
@@ -108,7 +112,52 @@ class MainView:
         self.style.configure('TButton', cursor='hand2')
 
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    app = MainView(root)
-    root.mainloop()
+    def create_widgets_user(self):
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(expand=True, fill='both')
+
+        # Frame y vista de Libros
+        self.frame_libros = ttk.Frame(self.notebook)
+        self.notebook.add(self.frame_libros, text='Libros')
+        self.libro_view = LibroView(self.frame_libros, self.libro_controller)
+
+        # Frame y vista de Categoria
+        self.frame_categorias = ttk.Frame(self.notebook)
+        self.notebook.add(self.frame_categorias, text='Categorías')
+        self.categoria_view = CategoriaView(self.frame_categorias, self.categoria_controller)
+         
+
+
+        # Estilos generales
+        self.style = ttk.Style()
+        self.style.configure('TButton', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TLabel', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TEntry', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TFrame', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TNotebook', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TNotebook.Tab', padding=6, relief='flat', background='#ccc')
+        self.style.configure('TCombobox', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Heading', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Cell', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Row', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Column', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+        self.style.configure('Treeview.Item', padding=6, relief='flat', background='#ccc')
+
+        # Estilos específicos
+        self.style.configure('Treeview', rowheight=30)
+        self.style.configure('Treeview.Heading', font=('Arial', 12))
+        self.style.configure('Treeview', font=('Arial', 12))
+        self.style.configure('Treeview', background='#ccc')
+        self.style.configure('Treeview', fieldbackground='#ccc')
+        self.style.configure('Treeview', foreground='black')
+        self.style.configure('Treeview', selectbackground='#ccc')
+        self.style.configure('Treeview', selectforeground='black')
+        self.style.configure('Treeview', selectmode='browse')
+        self.style.configure('Treeview', show='headings')
+        self.style.configure('Treeview', takefocus=True)
+        self.style.configure('Treeview', height=10)
+        

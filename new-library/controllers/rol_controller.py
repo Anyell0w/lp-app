@@ -43,3 +43,11 @@ class RolController:
         roles_encontrados = [Rol(*row) for row in cursor.fetchall()]
         conn.close()
         return roles_encontrados
+
+    def get_rol(self, rol):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM roles WHERE nombre_rol=?", (rol,))
+        rol = cursor.fetchone()
+        conn.close()
+        return rol[1]
